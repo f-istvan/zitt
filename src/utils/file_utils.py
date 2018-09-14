@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 
 def read_file(path: str) -> Dict[Any, str]:
-    result: Dict[Any, str] = {}
+    result: Dict[str, Any] = {}
     with open(path, 'r') as stream:
         try:
             result = yaml.load(stream)
