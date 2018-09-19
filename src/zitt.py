@@ -11,7 +11,7 @@ def main() -> None:
 
     swagger: Swagger = Swagger(swagger_src)
     server = build_server(swagger)
-    run_server(server)
+    # run_server(server)
 
 
 # execute only as a program
