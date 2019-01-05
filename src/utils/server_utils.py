@@ -9,7 +9,7 @@ def build_server(swagger: Swagger):
     for method in swagger.methods:
         print(f'{method.path}, {method.method_name}')
 
-        def flaskify_path_param(path) -> None:
+        def flaskify_path_param(path: str) -> str:
             path = path.replace('{', '<')
             path = path.replace('}', '>')
             return path
@@ -30,20 +30,26 @@ def temp(swagger):
 
     func_template = """
 {{ endpoint }}
-def func{{ func_postfix }}():
+def func_{{ func_postfix }}():
     {{ func_body }}
 """
 
     env = NativeEnvironment()
 
-    func_body = 'return "ok"'
+
 
     i: int = 0
     for method in swagger.methods:
         i = i + 1
+        func_body = generate_function_body(method)
         endpoint = f'@app.route("{method.path}, methods=[\'{method.method_name.upper()}\']")'
         result = env.from_string(func_template).render(endpoint=endpoint, func_postfix=i, func_body=func_body)
         #print(result)
         exec(result)
 
     return app
+
+
+def generate_function_body(method):
+    func_body = 'return "ok"'
+    return func_body
